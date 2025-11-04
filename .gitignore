@@ -1,0 +1,13 @@
+# Prebuilt Dependencies
+/dependencies/prebuilt/*
+!/dependencies/prebuilt/.gitkeep
+
+# CMake
+CMakeUserPresets.txt
+
+# Build Artifacts
+/out
+
+# IDE
+/.vs
+/.vscode

@@ -1,0 +1,6 @@
+ADD_LAB_EXECUTABLE(01-hello-triangle SOURCES 01-hello-triangle.cpp)
+ADD_LAB_EXECUTABLE(02-glm-vectors SOURCES 02-glm-vectors.cpp)
+ADD_LAB_EXECUTABLE(03-drawing-triangles SOURCES 03-drawing-triangles.cpp)
+ADD_LAB_EXECUTABLE(04-transforms SOURCES 04-transforms.cpp)
+ADD_LAB_EXECUTABLE(05-3d-shapes SOURCES 05-3d-shapes.cpp)
+ADD_LAB_EXECUTABLE(06-homework SOURCES 06-homework.cpp)
