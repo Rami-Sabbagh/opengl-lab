@@ -23,9 +23,9 @@ class TrianglesApplication : public LabUtils::LabOrbitApplication
 
 		shape = LabUtils::BasicShape({
 			// Position (x, y, z), Color
-			{ {-0.5f, -0.5f, 0.0f}, white }, // Bottom-left Corner
-			{ {0.5f, -0.5f, 0.0f}, white }, // Bottom-right Corner
-			{ {0.0f, 0.5f, 0.0f}, white }, // Top Corner
+			{ {0.0f, -0.5f, -0.5f}, white }, // Bottom-left Corner
+			{ {0.0f, 0.5f, -0.5f}, white }, // Bottom-right Corner
+			{ {0.0f, 0.0f, 0.5f}, white }, // Top Corner
 		}, GL_TRIANGLES);
 	}
 

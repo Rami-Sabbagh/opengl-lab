@@ -1,0 +1,5 @@
+ADD_LAB_EXECUTABLE(L02-P01-draw-modes SOURCES 01-draw-modes.cpp)
+ADD_LAB_EXECUTABLE(L02-P02-primitive-shapes SOURCES 02-primitive-shapes.cpp)
+ADD_LAB_EXECUTABLE(L02-P03-3d-shapes SOURCES 03-3d-shapes.cpp)
+ADD_LAB_EXECUTABLE(L02-P04-faces-culling SOURCES 04-faces-culling.cpp)
+ADD_LAB_EXECUTABLE(L02-P05-transformations SOURCES 05-transformations.cpp)

@@ -45,6 +45,8 @@ namespace LabUtils
 			std::cerr << "Failed to initialize GLAD (OpenGL)!" << std::endl;
 			std::exit(-1);
 		}
+
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void LabApplication::runEventLoop()
@@ -60,6 +62,11 @@ namespace LabUtils
 					running = false;
 				else if (const auto* resized = event->getIf<sf::Event::Resized>())
 					glViewport(0, 0, resized->size.x, resized->size.y);
+
+				if (const auto* keyEv = event->getIf<sf::Event::KeyPressed>())
+					onKeyPressed(*keyEv);
+				else if (const auto* keyEv = event->getIf<sf::Event::KeyReleased>())
+					onKeyReleased(*keyEv);
 			}
 
 			float t = t_clock.getElapsedTime().asSeconds();

@@ -26,10 +26,10 @@ class TriangleApplication : public LabUtils::LabOrbitApplication
 
 		shape = LabUtils::BasicShape({
 			// Position (x, y, z), Color
-			{ {-0.5f, -0.5f, 0.0f}, red }, // Bottom-left Corner
-			{ {0.5f, -0.5f, 0.0f}, green }, // Bottom-right Corner
-			{ {0.0f, 0.8f, 0.0f}, blue }, // Top Corner
-		});
+			{ {0.0f, -0.5f, -0.5f}, red }, // Bottom-left Corner
+			{ {0.0f, 0.5f, -0.5f}, green }, // Bottom-right Corner
+			{ {0.0f, 0.0f, 0.8f }, blue }, // Top Corner
+			});
 	}
 
 	// Called every frame before onDraw. Given a time counter in seconds since application start,
@@ -39,14 +39,14 @@ class TriangleApplication : public LabUtils::LabOrbitApplication
 		// Reset transform to identity.
 		transform = glm::identity<glm::mat4>();
 
-		// Translate on the Z axis, based on time (t)
-		transform = glm::translate(transform, { 0.0f, 0.0f, glm::sin(glm::radians(t * 90.0f)) + 1 });
+		// Translate on the X axis, based on time (t)
+		transform = glm::translate(transform, { -glm::sin(glm::radians(t * 90.0f)) - 1, 0.0f, 0.0f });
 
-		// Rotate around X axis, based on time (t).
+		// Rotate around Z axis, based on time (t).
 		transform = glm::rotate(transform, glm::radians(t * 60.0f), { 0.0f, 0.0f, 1.0f });
 
-		// Rotate around Y axis, based on time (t).
-		transform = glm::rotate(transform, glm::radians(t * 5.0f), { 0.0f, 1.0f, 0.0f });
+		// Rotate around X axis, based on time (t).
+		transform = glm::rotate(transform, glm::radians(t * 5.0f), { 1.0f, 0.0f, 0.0f });
 	}
 
 	// Called every frame after onUpdate. Given a time counter in seconds since application start,

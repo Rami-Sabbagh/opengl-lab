@@ -1,5 +1,5 @@
 
-# Rami's OpenGL Laboratory for Damascus University 2025
+# OpenGL Laboratory
 
 ## Installation
 

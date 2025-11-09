@@ -72,6 +72,8 @@ namespace LabUtils
 			VAO = other.VAO;
 			VBO = other.VBO;
 
+			drawMode = other.drawMode;
+
 			// leave other in null state
 			other.verticesCount = 0;
 		}
