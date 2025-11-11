@@ -57,7 +57,7 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape axis;
 	LabUtils::BasicShape cylinder, cone;
-	unsigned int active = 0; // عدّل الرقم التالي أو استخدم ارقام لوحة المفاتيل لتبديل الشكل المرسوم.
+	unsigned int active = 1; // عدّل الرقم التالي أو استخدم ارقام لوحة المفاتيل لتبديل الشكل المرسوم.
 
 	glm::mat4 transform = { 1.0f };
 
@@ -69,15 +69,11 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 	LabUtils::BasicShape createCylinder(float height, float radius, int segments)
 	{
 		using namespace Colors;
-
-		std::vector<LabUtils::BasicVertex> vertices{
-			// من الممكن وضع نقاط ثابتة هنا.
-			{ { 0.0f, 0.0f, 0.0f }, white }, // مثال، يمكن حذفه.
-		};
+		std::vector<LabUtils::BasicVertex> vertices{};
 
 		vertices.push_back({ { 0.0f, 0.0f, 0.0f }, white }); // مثال يمكن حذفه.
 
-		return LabUtils::BasicShape(vertices, GL_TRIANGLE_FAN);
+		return LabUtils::BasicShape(vertices, GL_TRIANGLES);
 	}
 
 	/*
@@ -88,15 +84,11 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 	LabUtils::BasicShape createCone(float height, float radius, int segments)
 	{
 		using namespace Colors;
-
-		std::vector<LabUtils::BasicVertex> vertices{
-			// من الممكن وضع نقاط ثابتة هنا.
-			{ { 0.0f, 0.0f, 0.0f }, white }, // مثال، يمكن حذفه.
-		};
+		std::vector<LabUtils::BasicVertex> vertices{};
 
 		vertices.push_back({ { 0.0f, 0.0f, 0.0f }, white }); // مثال يمكن حذفه.
 
-		return LabUtils::BasicShape(vertices, GL_TRIANGLE_FAN);
+		return LabUtils::BasicShape(vertices, GL_TRIANGLES);
 	}
 
 	/*
@@ -128,8 +120,8 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		if (active == 0) cylinder.render(transform, camera);
-		if (active == 1) cone.render(transform, camera);
+		if (active == 1) cylinder.render(transform, camera);
+		if (active == 2) cone.render(transform, camera);
 
 		glLineWidth(3.0f);
 		glDepthFunc(GL_ALWAYS); // التأكد من رسم محاور مبدأ الاحداثيات فوق كل شي
