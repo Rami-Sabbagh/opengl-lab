@@ -63,3 +63,5 @@ include(cmake/AddLabExecutable.cmake)
 
 add_subdirectory("lectures/01")
 add_subdirectory("lectures/02")
+
+add_subdirectory("homeworks/01")

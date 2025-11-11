@@ -74,7 +74,7 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 			// Z Axis, Blue
 			{{.0f, .0f, .0f}, { 0.f, 0.f, 1.f }},
 			{{.0f, .0f, .1f}, { 0.f, 0.f, 1.f }},
-			}, GL_TRIANGLES); // TASK: استخدم وضعية الرسم الصحيحة لرسم النقاط.
+			}, GL_TRIANGLES); // TASK: استخدم وضعية الرسم الصحيحة لرسم الخطوط
 	}
 
 	/*
@@ -231,6 +231,8 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 		createTriangles();
 		createTriangleStrip();
 		createTriangleFan();
+
+		glEnable(GL_PROGRAM_POINT_SIZE);
 	}
 
 	// Called every frame after onUpdate. Given a time counter in seconds since application start,
