@@ -68,10 +68,10 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 	تابع تحويل صيغة الألوان
 	*/
 
-	glm::vec3 hsv2rgb(glm::vec3 rgb)
+	glm::vec3 hsv2rgb(glm::vec3 hsv)
 	{
 		// TASK: ابحث بالانترنت عن كيفية اجراء هذا التحويل، من الممكن نسخ كود، لكن ربما تحتاج تعديله ليعمل مع الصيغة المستخدمة.
-
+		return hsv;
 	}
 
 	/*
