@@ -35,11 +35,11 @@ namespace LabUtils
 		);
 
 		auto windowSize = window.getSize();
-		float aspectRatio = std::max(windowSize.x, windowSize.y) / std::min(windowSize.x, windowSize.y);
+		float width = windowSize.x, height = windowSize.y;
 
 		glm::mat4 projectionTransform = glm::perspective(
 			glm::radians(45.0f),	// Field of view in radians
-			aspectRatio,		    // Aspect ratio (width / height)
+			width / height,		    // Aspect ratio (width / height)
 			0.1f,					// Near clipping plane
 			100.0f					// Far clipping plane
 		);
