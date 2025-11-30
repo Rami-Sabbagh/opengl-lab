@@ -63,7 +63,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		// قراءة ملف الصورة باستخدام SFML
 		sf::Image image;
-		if (!image.loadFromFile("assets/Tiles095_1K-JPG_Color.jpg")) std::exit(1);
+		if (!image.loadFromFile("../../../../../assets/Tiles095_1K-JPG_Color.jpg")) std::exit(1);
 		image.flipVertically(); // كي تتوافق مع صيغة الأوبن جي ال
 
 		glGenTextures(1, &texture);
