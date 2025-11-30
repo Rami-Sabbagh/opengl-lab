@@ -1,21 +1,50 @@
-﻿// A library made for this OpenGL laboratory to simplify some stuff.
-// It provides some boilerplate so you can jump right into the graphics.
-#include "lab-utils/orbit-application.hpp"
-#include "lab-utils/basic-shape.hpp"
+﻿// عزيزي الطالب، هذا ملف مثال، ولك كامل الحرية في تعديله
+// ذكرت الغاية والمراجع لجميع المكاتب المستخدمة.
 
-// GLM: OpenGL Mathematics Library
+// ---- تضمين المكاتب الخارجية ---- //
+
+// من أجل استخدام اصدار حديث من الأوبن جي ال
+// لا بد من استخدام مكتبة وسيطة
+// GLAD: https://github.com/Dav1dde/glad, https://glad.dav1d.de/
+// المرجع: https://docs.gl/ أو https://devdocs.io/
+#include <glad/glad.h>
+
+// لإنشاء نافذة البرنامج، وتحميل الصور على الذاكرة، ومعالجة دخل المستخدم
+// نستخدم مكتبة وسيطة بدل التعامل مع توابع نظام التشغيل مباشرة
+// SFML: Simple and Fast Multimedia Library: https://www.sfml-dev.org/
+// مرجع التوابع: https://www.sfml-dev.org/documentation/3.0.2/
+// دليل المتسخدم: https://www.sfml-dev.org/tutorials/3.0/
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/OpenGL.hpp>
+
+// للتعامل مع الأشعة والمصفوفات الرياضية
+// وانشاء مصفوفات تحويلات هندسية وإسقاط
+// GLM: OpenGL Mathematics: https://github.com/g-truc/glm/
+// دليل المستخدم: https://github.com/g-truc/glm/blob/master/manual.md
+// لربما من الأحسن الإعتماد على التتمة التلقائية أثناء الكتابة،
+// أو قراءة ملفات التوريس مباشرة.
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-// Enable std::cout support for GLM values.
+// لتفعيل دعم الطباعة بالمكتبة السابقة
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/io.hpp>
 
-// Standard C++ libraries we're using.
-#include <iostream>
-#include <vector>
+// ---- تضمين المكاتب الاساسية ---- //
 
-// Handy pre-defined colors you can make use of.
+#include <string>
+#include <vector>
+#include <iostream>
+
+// ---- تضمين ترويسات المشروع ---- //
+
+#include "lab-utils/basic-shape.hpp"
+#include "lab-utils/orbit-application.hpp"
+
+// ---- قيم مساعدة ---- //
+
+// تعريف مجموعة من الألوان
 namespace Colors
 {
 	glm::vec3 red{ 1.f, 0.f, 0.f };
@@ -40,6 +69,8 @@ namespace Colors
 4. غير عملية إلغاء الوجوه لتلغي الوجوه الأمامية بدل الخلفية باستخدام التعليمة المناسبة في تابع الرسم، ثم جرب البرنامج.
 
 */
+
+// ---- البرنامج ---- //
 
 class PracticeApplication : public LabUtils::LabOrbitApplication
 {
@@ -107,15 +138,32 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 			});
 	}
 
-	// Called at the start of the application. Useful to initialize resources such as vertex buffers.
+	// ---- مراحل حياة البرنامج ---- //
+
+	// تابع يستدعى مرة واحدة عند بدئ البرنامج.
+	// مناسب لإنشاء النماذج وتحديد موضعها الابتدائي
+	// وتحميل الصور على الذاكرة.
 	void onInit() override
 	{
 		createAxis();
 		createCube();
 	}
 
-	// Called every frame after onUpdate. Given a time counter in seconds since application start,
-	// and a measurement of elapsed time between frames. Suitable for drawing operations.
+	// تابع يستدعى في كل مرّة ترسم فيها الشاشة
+	// يستدعى قبل التابع onDraw
+	// يأخذ معطيين: عدّاد للثواني منذ تشغيل البرنامج
+	// وعدّاد للثواني بين كل مرة تسرم فيها الشاشة
+	// مناسب لإجراء لتحديث مواضع المجسّمات.
+	void onUpdate(float t, float dt) override
+	{
+
+	}
+
+	// تابع يستدعى في كل مرّة ترسم فيها الشاشة
+	// يستدعى بعد التابع onDraw
+	// يأخذ معطيين: عدّاد للثواني منذ تشغيل البرنامج
+	// وعدّاد للثواني بين كل مرة تسرم فيها الشاشة
+	// مناسب لإجراء لتحديث مواضع المجسّمات.
 	void onDraw(float t, float dt) override
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -138,9 +186,16 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		axis.render(transform, camera);
 		glDepthFunc(GL_LESS);
 	}
+
+	// تابع يستدعى مرة واحدة عند نهاية البرنامج
+	// مناسب لحفظ تقدّم المستخدم في اللعبة أو إعدادات البرنامج.
+	void onExit()
+	{
+
+	}
 };
 
-// ==========--: Entry-Point :--========== //
+// ==========--: نقطة دخول البرنامج :--========== //
 
 int main() {
 	PracticeApplication app;
