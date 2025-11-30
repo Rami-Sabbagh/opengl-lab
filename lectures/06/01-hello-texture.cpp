@@ -4,7 +4,6 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Image.hpp>
 #include <SFML/OpenGL.hpp>
 
 #include <glm/glm.hpp>

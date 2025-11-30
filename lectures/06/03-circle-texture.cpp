@@ -33,21 +33,8 @@
 مهام التمرين:
 =============
 
-1. أضف الرأس اللازم أو غيّر رؤوس الشكل المجود ليصبح مربّعاً يعرض الصورة بأكملها.
-
-2. غيّر الصورة المستخدمة إلى
-sy-gov-logo.jpg
-
-3. غيّر احداثيات فضاء الصورة لتصبح خارج المجال الأساسي
-
-4. غيّر آلية التعامل مع الاحداثيات خارج المجال الأساسي لتصبح تعمل بالتكرار مع العكس
-(Mirror)
-
-5. جرّب تغيير وضعية الـ
-Filter
-وجرّب وضعيات الـ
-Wrap
-المختلفة.
+1. صحّح احداثيّات فضاء الصورة لتظهر الصورة على الدائرة بشكل صحيح.
+2. غيّر احداثيات مركز الدائرة ليصبح الشكل أشبه بمخروط.
 */
 
 class PracticeApplication : public LabUtils::LabOrbitApplication
@@ -72,7 +59,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		// قراءة ملف الصورة باستخدام SFML
 		sf::Image image;
-		if (!image.loadFromFile("../../../../../assets/Tiles095_1K-JPG_Color.jpg")) std::exit(1);
+		if (!image.loadFromFile("../../../../../assets/sy-gov-logo.jpg")) std::exit(1);
 		image.flipVertically(); // كي تتوافق مع صيغة الأوبن جي ال
 
 		glGenTextures(1, &texture);
@@ -85,13 +72,21 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		// -- تعريف الشكل -- //
 
-		shape = LabUtils::TexturedShape({
-			// الموقع (x, y, z), اللون
-			{ {0.0f, -0.5f, -0.5f }, white, {0.0f, 0.0f} },
-			{ {0.0f, 0.5f, -0.5f}, white, {1.0f, 0.0f} },
-			{ {0.0f, -0.5f, 0.5f}, white, {0.0f, 1.0f} },
-			// TASK: أضف الرأس اللازم أو أعد تعريف الشكل ليصبح مربّع
-			}, GL_TRIANGLE_STRIP);
+		std::vector<LabUtils::TexturedVertex> vertices{
+			{{ 0.0f, 0.0f, 0.0f }, white, { 0.5f, 0.5f }}, // مركز الدائرة
+		};
+
+		float segments = 16, radius = 0.5f;
+		float step = glm::radians(360.0f) / segments;
+
+		for (float angle = 0.0f; angle <= glm::radians(360.1f); angle += step)
+			vertices.push_back({
+				{0.0f, glm::cos(angle) * radius, glm::sin(angle) * radius},
+				white,
+				{0.0f, 0.0f}, // TASK: صحّح احداثيات فضاء الصورة
+			});
+
+		shape = LabUtils::TexturedShape(vertices, GL_TRIANGLE_FAN);
 	}
 
 	void onUpdate(float t, float dt) override
@@ -152,7 +147,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 int main() {
 	PracticeApplication app;
-	app.run({ 600, 600 }, "Quad Texture (L06:P02)");
+	app.run({ 600, 600 }, "Circle Texture (L06:P03)");
 
 	return 0;
 }
