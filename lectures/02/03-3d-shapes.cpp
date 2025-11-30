@@ -39,7 +39,7 @@ namespace Colors
 
 */
 
-class DrawModeApplication : public LabUtils::LabOrbitApplication
+class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape axis;
 	LabUtils::BasicShape pyramid;
@@ -110,7 +110,7 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 // ==========--: Entry-Point :--========== //
 
 int main() {
-	DrawModeApplication app;
+	PracticeApplication app;
 	app.run({ 600, 600 }, "3D Shapes (L02:P03)");
 
 	return 0;

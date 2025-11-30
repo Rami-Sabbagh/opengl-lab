@@ -10,7 +10,7 @@
 // Standard C++ libraries we're using.
 #include <iostream>
 
-class TrianglesApplication : public LabUtils::LabOrbitApplication
+class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape shape;
 	glm::mat4 transform = { 1.0f };
@@ -43,7 +43,7 @@ class TrianglesApplication : public LabUtils::LabOrbitApplication
 // ==========--: Entry-Point :--========== //
 
 int main() {
-	TrianglesApplication app;
+	PracticeApplication app;
 	app.run({ 800, 600 }, "Drawing Triangles (L01:P03)");
 
 	return 0;

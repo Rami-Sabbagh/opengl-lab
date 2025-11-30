@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 
-class TriangleApplication : public LabUtils::LabOrbitApplication
+class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape shape;
 	glm::mat4 transform = { 1.0f };
@@ -63,7 +63,7 @@ class TriangleApplication : public LabUtils::LabOrbitApplication
 // ==========--: Entry-Point :--========== //
 
 int main() {
-	TriangleApplication app;
+	PracticeApplication app;
 	app.run({ 800, 600 }, "Hello Triangle (L01:P01)");
 
 	return 0;

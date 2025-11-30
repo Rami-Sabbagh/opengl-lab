@@ -55,7 +55,7 @@ glm::degrees(3.14f) ~= 180
 
 */
 
-class DrawModeApplication : public LabUtils::LabOrbitApplication
+class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape axis;
 	LabUtils::BasicShape quad, circle;
@@ -156,7 +156,7 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 // ==========--: Entry-Point :--========== //
 
 int main() {
-	DrawModeApplication app;
+	PracticeApplication app;
 	app.run({ 600, 600 }, "Primitive Shapes (L02:P02)");
 
 	return 0;

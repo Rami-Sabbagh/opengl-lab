@@ -41,7 +41,7 @@ namespace Colors
 
 */
 
-class DrawModeApplication : public LabUtils::LabOrbitApplication
+class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	LabUtils::BasicShape axis;
 	LabUtils::BasicShape cube;
@@ -143,7 +143,7 @@ class DrawModeApplication : public LabUtils::LabOrbitApplication
 // ==========--: Entry-Point :--========== //
 
 int main() {
-	DrawModeApplication app;
+	PracticeApplication app;
 	app.run({ 600, 600 }, "Faces Culling (L02:P04)");
 
 	return 0;
