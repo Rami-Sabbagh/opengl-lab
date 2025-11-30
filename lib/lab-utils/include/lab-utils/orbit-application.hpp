@@ -1,5 +1,4 @@
-#ifndef LAB_UTILS__ORBIT_APPLICATION_HPP
-#define LAB_UTILS__ORBIT_APPLICATION_HPP
+#pragma once
 
 #include <optional>
 
@@ -31,5 +30,3 @@ namespace LabUtils
 		sf::Vector2i lastMousePosition;
 	};
 }
-
-#endif // LAB_UTILS__ORBIT_APPLICATION_HPP

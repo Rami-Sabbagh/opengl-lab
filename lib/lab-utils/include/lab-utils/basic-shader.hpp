@@ -1,5 +1,4 @@
-#ifndef LAB_UTILS__BASIC_SHADER_HPP
-#define LAB_UTILS__BASIC_SHADER_HPP
+#pragma once
 
 #include <string>
 #include <glad/glad.h>
@@ -48,5 +47,3 @@ void main() {
         return compileAndLinkShaderProgram(BASIC_VERTEX_SHADER_SRC, BASIC_FRAMGENT_SHADER_SRC, "basic-shader");
     }
 }
-
-#endif // LAB_UTILS__BASIC_SHADER_HPP

@@ -1,5 +1,4 @@
-#ifndef LAB_UTILS__LIFE_CYCLE_HPP
-#define LAB_UTILS__LIFE_CYCLE_HPP
+#pragma once
 
 #include <SFML/Window/Event.hpp>
 
@@ -30,5 +29,3 @@ namespace LabUtils
 		virtual void onKeyReleased(const sf::Event::KeyReleased& ev) {}
 	};
 }
-
-#endif // LAB_UTILS__LIFE_CYCLE_HPP

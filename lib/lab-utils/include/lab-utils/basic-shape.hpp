@@ -1,5 +1,4 @@
-#ifndef LAB_UTILS__BASIC_SHAPE_HPP
-#define LAB_UTILS__BASIC_SHAPE_HPP
+#pragma once
 
 #include <vector>
 #include <glm/mat4x4.hpp>
@@ -29,5 +28,3 @@ namespace LabUtils
 		void render(const glm::mat4& transform = {1.0f}, const glm::mat4& camera = { 1.0f }) const;
 	};
 }
-
-#endif // LAB_UTILS__BASIC_SHAPE_HPP

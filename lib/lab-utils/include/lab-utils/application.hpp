@@ -1,5 +1,4 @@
-#ifndef LAB_UTILS__APPLICATION_HPP
-#define LAB_UTILS__APPLICATION_HPP
+#pragma once
 
 #include <glad/glad.h>
 #include <SFML/Window.hpp>
@@ -30,5 +29,3 @@ namespace LabUtils
 		void run(sf::Vector2u windowSize = { 800, 600 }, const sf::String& windowTitle = "Untitled Lab Application");
 	};
 }
-
-#endif // LAB_UTILS__APPLICATION_HPP
