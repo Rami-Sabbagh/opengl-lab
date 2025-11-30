@@ -1,75 +1,67 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
 
-#include<glad/glad.h>
+#include <glad/glad.h>
 
 #include "lab-utils/shaders-utils.hpp"
 
 namespace LabUtils
 {
+	GLuint compileShader(GLenum type, const char* source, const std::string& name)
+	{
+		GLuint shader = glCreateShader(type);
+		glShaderSource(shader, 1, &source, nullptr);
+		glCompileShader(shader);
 
-    GLuint compileShader(GLenum type, const char* source, const std::string& name)
-    {
-        GLuint shader = glCreateShader(type);
-        glShaderSource(shader, 1, &source, nullptr);
-        glCompileShader(shader);
+		GLint success;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			int length;
+			char infoLog[512];
+			glGetShaderInfoLog(shader, 512, &length, infoLog);
 
-        GLint success;
-        char infoLog[512];
+			std::cout << "Failed to compile shader (" << name << "):\n" << std::string(infoLog, length) << std::endl;
+			std::exit(1);
+		}
 
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            int length;
-            glGetProgramInfoLog(shader, 512, &length, infoLog);
-            if (length > 0)
-                std::cout << "Failed to compile shader (" << name << "):\n" << infoLog << std::endl;
-            else
-                std::cout << "Failed to compile shader (" << name << ")!" << std::endl;
+		return shader;
+	}
 
-            std::exit(1);
-        }
+	GLuint linkShaderProgram(GLuint vertexShader, GLuint fragmentShader, const std::string& name)
+	{
+		GLuint shaderProgram = glCreateProgram();
+		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, fragmentShader);
+		glLinkProgram(shaderProgram);
 
-        return shader;
-    }
+		GLint success;
+		glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
 
-    GLuint linkShaderProgram(GLuint vertexShader, GLuint fragmentShader, const std::string& name)
-    {
-        GLuint shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
+		if (!success)
+		{
+			int length;
+			char infoLog[512];
+			glGetProgramInfoLog(shaderProgram, 512, &length, infoLog);
 
-        GLint success;
-        char infoLog[512];
+			std::cout << "Failed to link shader program (" << name << "):\n" << std::string(infoLog, length) << std::endl;
+			std::exit(1);
+		}
 
-        glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
-        if (!success)
-        {
-            int length;
-            glGetProgramInfoLog(shaderProgram, 512, &length, infoLog);
-            if (length > 0)
-                std::cout << "Failed to link shader program (" << name << "):\n" << infoLog << std::endl;
-            else
-                std::cout << "Failed to link shader progrm (" << name << ")!" << std::endl;
+		return shaderProgram;
+	}
 
-            std::exit(1);
-        }
+	GLuint compileAndLinkShaderProgram(const char* vertexSource, const char* fragmentSource, const std::string& name)
+	{
+		GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource, name + "/vertex.glsl");
+		GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource, name + "/fragment.glsl");
 
-        return shaderProgram;
-    }
+		GLuint shaderProgram = linkShaderProgram(vertexShader, fragmentShader, name);
 
-    GLuint compileAndLinkShaderProgram(const char* vertexSource, const char* fragmentSource, const std::string& name)
-    {
-        GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource, name + "/vertex.glsl");
-        GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource, name + "/fragment.glsl");
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
 
-        GLuint shaderProgram = linkShaderProgram(vertexShader, fragmentShader, name);
-
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-
-        return shaderProgram;
-    }
+		return shaderProgram;
+	}
 
 }
