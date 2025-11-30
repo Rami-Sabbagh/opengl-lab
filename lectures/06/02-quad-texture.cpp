@@ -30,6 +30,27 @@
 
 // ---- البرنامج ---- //
 
+/*
+مهام التمرين:
+=============
+
+1. أضف الرأس اللازم أو غيّر رؤوس الشكل المجود ليصبح مربّعاً يعرض الصورة بأكملها.
+
+2. غيّر الصورة المستخدمة إلى
+sy-gov-logo.jpg
+
+3. غيّر احداثيات فضاء الصورة لتصبح خارج المجال الأساسي
+
+4. غيّر آلية التعامل مع الاحداثيات خارج المجال الأساسي لتصبح تعمل بالتكرار مع العكس
+(Mirror)
+
+5. جرّب تغيير وضعية الـ
+Filter
+وجرّب وضعيات الـ
+Wrap
+المختلفة.
+*/
+
 class PracticeApplication : public LabUtils::LabOrbitApplication
 {
 	// ---- متحولات البرنامج ---- //
@@ -67,15 +88,16 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		shape = LabUtils::TexturedShape({
 			// الموقع (x, y, z), اللون
-			{ {0.0f, 0.0f, 0.8f }, white, {0.5f, 1.0f} }, // الزاوية العلوية
-			{ {0.0f, 0.5f, -0.5f}, white, {1.0f, 0.0f} }, // الزاوية السفلية - اليمينية
-			{ {0.0f, -0.5f, -0.5f}, white, {0.0f, 0.0f} }, // الزاوية السفلية - اليسارية
-			}, GL_TRIANGLES);
+			{ {0.0f, -0.5f, -0.5f }, white, {0.0f, 0.0f} },
+			{ {0.0f, 0.5f, -0.5f}, white, {1.0f, 0.0f} },
+			{ {0.0f, -0.5f, 0.5f}, white, {0.0f, 1.0f} },
+			// TASK: أضف الرأس اللازم أو أعد تعريف الشكل ليصبح مربّع
+			}, GL_TRIANGLE_STRIP);
 	}
 
 	void onUpdate(float t, float dt) override
 	{
-		
+
 	}
 
 	void onDraw(float t, float dt) override
@@ -131,7 +153,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 int main() {
 	PracticeApplication app;
-	app.run({ 600, 600 }, "Hello Texture (L06:P01)");
+	app.run({ 600, 600 }, "Quad Texture (L06:P02)");
 
 	return 0;
 }
