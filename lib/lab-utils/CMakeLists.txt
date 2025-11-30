@@ -5,7 +5,7 @@ target_sources(lab-utils
 		FILE_SET HEADERS
 		BASE_DIRS include
 		FILES
-			include/lab-utils/shaders-utils.hpp
+			include/lab-utils/shader-utils.hpp
 			include/lab-utils/basic-shader.hpp
 			include/lab-utils/basic-shape.hpp
 			include/lab-utils/life-cycle.hpp
@@ -13,7 +13,7 @@ target_sources(lab-utils
 			include/lab-utils/orbit-application.hpp
 
 	PRIVATE
-		src/shaders-utils.cpp
+		src/shader-utils.cpp
 		src/basic-shape.cpp
 		src/application.cpp
 		src/orbit-application.cpp
