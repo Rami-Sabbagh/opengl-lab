@@ -112,6 +112,10 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+		// Border Color
+		glm::vec4 border_color{ 1.0f, 0.0f, 0.0f, 1.0f };
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(border_color));
+
 		// تفعيل الصورة
 		glBindTexture(GL_TEXTURE_2D, texture);
 
