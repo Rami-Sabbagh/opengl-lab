@@ -7,6 +7,8 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
+set(CMAKE_VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
+
 # --== Prebuilt Packages Configuration ==-- #
 
 option(USE_PREBUILT_LIBS "Use pre-build dependencies binaries if available" ON)
@@ -36,7 +38,7 @@ set(GLM_ENABLE_CXX_17 ON)
 if(USE_PREBUILT_LIBS)
     message("Using prebuilt libraries.")
 
-    find_package(SFML 3 COMPONENTS Window REQUIRED)
+    find_package(SFML 3 COMPONENTS System Window Graphics REQUIRED)
 else()
     message("Using fetched libraries.")
 

@@ -1,35 +1,14 @@
-﻿// عزيزي الطالب، هذا ملف مثال، ولك كامل الحرية في تعديله
-// ذكرت الغاية والمراجع لجميع المكاتب المستخدمة.
+﻿// ---- تضمين المكاتب الخارجية ---- //
 
-// ---- تضمين المكاتب الخارجية ---- //
-
-// من أجل استخدام اصدار حديث من الأوبن جي ال
-// لا بد من استخدام مكتبة وسيطة
-// GLAD: https://github.com/Dav1dde/glad, https://glad.dav1d.de/
-// المرجع: https://docs.gl/ أو https://devdocs.io/
 #include <glad/glad.h>
 
-// لإنشاء نافذة البرنامج، وتحميل الصور على الذاكرة، ومعالجة دخل المستخدم
-// نستخدم مكتبة وسيطة بدل التعامل مع توابع نظام التشغيل مباشرة
-// SFML: Simple and Fast Multimedia Library: https://www.sfml-dev.org/
-// مرجع التوابع: https://www.sfml-dev.org/documentation/3.0.2/
-// دليل المتسخدم: https://www.sfml-dev.org/tutorials/3.0/
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/OpenGL.hpp>
 
-// للتعامل مع الأشعة والمصفوفات الرياضية
-// وانشاء مصفوفات تحويلات هندسية وإسقاط
-// GLM: OpenGL Mathematics: https://github.com/g-truc/glm/
-// دليل المستخدم: https://github.com/g-truc/glm/blob/master/manual.md
-// لربما من الأحسن الإعتماد على التتمة التلقائية أثناء الكتابة،
-// أو قراءة ملفات التوريس مباشرة.
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-
-// لتفعيل دعم الطباعة بالمكتبة السابقة
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/io.hpp>
 
 // ---- تضمين المكاتب الاساسية ---- //
 
@@ -71,15 +50,29 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 	glm::mat4 transform = { 1.0f };
 
+	GLuint texture = 0;
+
 	// ---- مراحل حياة البرنامج ---- //
 
-	// تابع يستدعى مرة واحدة عند بدئ البرنامج.
-	// مناسب لإنشاء النماذج وتحديد موضعها الابتدائي
-	// وتحميل الصور على الذاكرة.
 	void onInit() override
 	{
 		createAxis();
 		using namespace Colors;
+
+		// -- تحميل الصورة -- //
+
+		// قراءة ملف الصورة باستخدام SFML
+		sf::Image image;
+		if (!image.loadFromFile("assets/Tiles095_1K-JPG_Color.jpg")) std::exit(1);
+		image.flipVertically(); // كي تتوافق مع صيغة الأوبن جي ال
+
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		// نقل الصورة إلى ذاكرة الرسوميّات
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
+			image.getSize().x, image.getSize().y,
+			0, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
 
 		// -- تعريف الشكل -- //
 
@@ -91,26 +84,17 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 			}, GL_TRIANGLES);
 	}
 
-	// تابع يستدعى في كل مرّة ترسم فيها الشاشة
-	// يستدعى قبل التابع onDraw
-	// يأخذ معطيين: عدّاد للثواني منذ تشغيل البرنامج
-	// وعدّاد للثواني بين كل مرة تسرم فيها الشاشة
-	// مناسب لإجراء لتحديث مواضع المجسّمات.
 	void onUpdate(float t, float dt) override
 	{
 		
 	}
 
-	// تابع يستدعى في كل مرّة ترسم فيها الشاشة
-	// يستدعى بعد التابع onDraw
-	// يأخذ معطيين: عدّاد للثواني منذ تشغيل البرنامج
-	// وعدّاد للثواني بين كل مرة تسرم فيها الشاشة
-	// مناسب لإجراء لتحديث مواضع المجسّمات.
 	void onDraw(float t, float dt) override
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glBindTexture(GL_TEXTURE_2D, texture);
 		shape.render(transform, camera);
 
 		glLineWidth(3.0f);
@@ -119,11 +103,9 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glDepthFunc(GL_LESS);
 	}
 
-	// تابع يستدعى مرة واحدة عند نهاية البرنامج
-	// مناسب لحفظ تقدّم المستخدم في اللعبة أو إعدادات البرنامج.
 	void onExit()
 	{
-
+		glDeleteTextures(1, &texture);
 	}
 
 	// ---- توابع مساعدة ---- //
