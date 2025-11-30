@@ -78,9 +78,9 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		shape = LabUtils::TexturedShape({
 			// الموقع (x, y, z), اللون
-			{ {0.0f, 0.0f, 0.8f }, red, {0.5f, 1.0f} }, // الزاوية العلوية
-			{ {0.0f, 0.5f, -0.5f}, green, {1.0f, 0.0f} }, // الزاوية السفلية - اليمينية
-			{ {0.0f, -0.5f, -0.5f}, blue, {0.0f, 0.0f} }, // الزاوية السفلية - اليسارية
+			{ {0.0f, 0.0f, 0.8f }, white, {0.5f, 1.0f} }, // الزاوية العلوية
+			{ {0.0f, 0.5f, -0.5f}, white, {1.0f, 0.0f} }, // الزاوية السفلية - اليمينية
+			{ {0.0f, -0.5f, -0.5f}, white, {0.0f, 0.0f} }, // الزاوية السفلية - اليسارية
 			}, GL_TRIANGLES);
 	}
 
@@ -94,11 +94,16 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 		glBindTexture(GL_TEXTURE_2D, texture);
 		shape.render(transform, camera);
 
 		glLineWidth(3.0f);
-		glDepthFunc(GL_ALWAYS); // التأكد من رسم محاور مبدأ الاحداثيات فوق كل شي
+		glDepthFunc(GL_ALWAYS);
 		axis.render(glm::identity<glm::mat4>(), camera);
 		glDepthFunc(GL_LESS);
 	}

@@ -25,8 +25,10 @@ static const char* TEXTURED_VERTEX_SHADER_SRC = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
+layout(location = 2) in vec2 aUV;
 
 out vec3 vertexColor;
+out vec2 textureCoord;
 
 uniform mat4 camera;
 uniform mat4 transform;
@@ -34,6 +36,7 @@ uniform mat4 transform;
 void main() {
 gl_Position = camera * transform * vec4(aPos, 1.0);
 vertexColor = aColor;
+textureCoord = aUV;
 }
 )";
 
@@ -41,11 +44,14 @@ static const char* TEXTURED_FRAMGENT_SHADER_SRC = R"(
 #version 330 core
 
 in vec3 vertexColor;
+in vec2 textureCoord;
 
 out vec4 FragColor;
 
+uniform sampler2D shapeTexture;
+
 void main() {
-FragColor = vec4(vertexColor, 1.0);
+FragColor = texture(shapeTexture, textureCoord) * vec4(vertexColor, 1.0);
 }
 )";
 
@@ -91,6 +97,9 @@ namespace LabUtils
 		// - Color
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(TexturedVertex), (void*)(offsetof(TexturedVertex, color)));
 		glEnableVertexAttribArray(1);
+		// - UV
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(TexturedVertex), (void*)(offsetof(TexturedVertex, uv)));
+		glEnableVertexAttribArray(2);
 
 		// Get Uniforms Locations
 		cameraLocation = glGetUniformLocation(shaderProgram, "camera");
