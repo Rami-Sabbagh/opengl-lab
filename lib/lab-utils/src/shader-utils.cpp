@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-#include "lab-utils/shaders-utils.hpp"
+#include "lab-utils/shader-utils.hpp"
 
 namespace LabUtils
 {
