@@ -1,12 +1,55 @@
+﻿// عزيزي الطالب، هذا ملف مثال، ولك كامل الحرية في تعديله
+// ذكرت الغاية والمراجع لجميع المكاتب المستخدمة.
+
+// ---- تضمين المكاتب الخارجية ---- //
+
+// من أجل استخدام اصدار حديث من الأوبن جي ال
+// لا بد من استخدام مكتبة وسيطة
+// GLAD: https://github.com/Dav1dde/glad, https://glad.dav1d.de/
+// المرجع: https://docs.gl/ أو https://devdocs.io/
 #include <glad/glad.h>
 
-#include <glm/mat4x4.hpp>
-#include <glm/gtc/type_ptr.hpp>
+// ---- تضمين المكاتب الاساسية ---- //
 
-#include <vector>
+#include <iostream>
+#include <string>
 
-#include "lab-utils/basic-shader.hpp"
+// ---- تضمين ترويسات المشروع ---- //
+
+#include "lab-utils/shader-utils.hpp"
 #include "lab-utils/basic-shape.hpp"
+
+// ---- الشيدر البسيط للرسم من دون إضاءة ---- //
+
+static const char* BASIC_VERTEX_SHADER_SRC = R"(
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aColor;
+
+out vec3 vertexColor;
+
+uniform mat4 camera;
+uniform mat4 transform;
+
+void main() {
+gl_Position = camera * transform * vec4(aPos, 1.0);
+vertexColor = aColor;
+}
+)";
+
+static const char* BASIC_FRAMGENT_SHADER_SRC = R"(
+#version 330 core
+
+in vec3 vertexColor;
+
+out vec4 FragColor;
+
+void main() {
+FragColor = vec4(vertexColor, 1.0);
+}
+)";
+
+// ---- الصف المساعد لرسم الأشكاء ---- //
 
 namespace LabUtils
 {
@@ -22,18 +65,18 @@ namespace LabUtils
 
 		this->drawMode = drawMode;
 
-		shaderProgram = createBasicShaderProgram();
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
+		shaderProgram = compileAndLinkShaderProgram(BASIC_VERTEX_SHADER_SRC, BASIC_FRAMGENT_SHADER_SRC, "basic-shader");
 
 		// Upload Vertex Data
 		int size = verticesCount * sizeof(BasicVertex);
 
-		glBindVertexArray(VAO);
+		glGenBuffers(1, &VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices.data(), GL_STATIC_DRAW);
 
 		// Configure Attributes
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
 		// - Position
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BasicVertex), (void*)(offsetof(BasicVertex, position)));
 		glEnableVertexAttribArray(0);
@@ -92,3 +135,4 @@ namespace LabUtils
 		glDrawArrays(drawMode, 0, verticesCount);
 	}
 }
+

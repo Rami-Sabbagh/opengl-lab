@@ -6,7 +6,6 @@ target_sources(lab-utils
 		BASE_DIRS include
 		FILES
 			include/lab-utils/shader-utils.hpp
-			include/lab-utils/basic-shader.hpp
 			include/lab-utils/basic-shape.hpp
 			include/lab-utils/life-cycle.hpp
 			include/lab-utils/application.hpp

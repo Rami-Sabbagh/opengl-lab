@@ -1,12 +1,30 @@
-#pragma once
+﻿#pragma once
 
-#include <vector>
-#include <glm/mat4x4.hpp>
+// ---- تضمين المكاتب الخارجية ---- //
 
-#include "lab-utils/basic-shader.hpp"
+// من أجل استخدام اصدار حديث من الأوبن جي ال
+// لا بد من استخدام مكتبة وسيطة
+// GLAD: https://github.com/Dav1dde/glad, https://glad.dav1d.de/
+// المرجع: https://docs.gl/ أو https://devdocs.io/
+#include <glad/glad.h>
+
+// للتعامل مع الأشعة والمصفوفات الرياضية
+// وانشاء مصفوفات تحويلات هندسية وإسقاط
+// GLM: OpenGL Mathematics: https://github.com/g-truc/glm/
+// دليل المستخدم: https://github.com/g-truc/glm/blob/master/manual.md
+// لربما من الأحسن الإعتماد على التتمة التلقائية أثناء الكتابة،
+// أو قراءة ملفات التوريس مباشرة.
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
 namespace LabUtils
 {
+	struct BasicVertex
+	{
+		glm::vec3 position;
+		glm::vec3 color;
+	};
+
 	class BasicShape
 	{
 	protected:
@@ -25,6 +43,6 @@ namespace LabUtils
 
 		BasicShape& operator=(BasicShape&& other) noexcept;
 
-		void render(const glm::mat4& transform = {1.0f}, const glm::mat4& camera = { 1.0f }) const;
+		void render(const glm::mat4& transform = { 1.0f }, const glm::mat4& camera = { 1.0f }) const;
 	};
 }
