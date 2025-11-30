@@ -24,20 +24,9 @@
 
 // ---- قيم مساعدة ---- //
 
-// تعريف مجموعة من الألوان
-namespace Colors
-{
-	glm::vec3 red{ 1.f, 0.f, 0.f };
-	glm::vec3 green{ 0.f, 1.f, 0.f };
-	glm::vec3 blue{ 0.f, 0.f, 1.f };
-
-	glm::vec3 white{ 1.f, 1.f, 1.f };
-	glm::vec3 black{ 0.f, 0.f, 0.f };
-
-	glm::vec3 yellow{ 1.f, 1.f, 0.f };
-	glm::vec3 magenta{ 1.f, 0.f, 1.f };
-	glm::vec3 cyan{ 0.f, 1.f, 1.f };
-}
+// الألوان المساعدة أصبحت ضمن ترويسات المشروع
+#include "lab-utils/colors.hpp"
+// using namespace LabUtils::Colors;
 
 // ---- البرنامج ---- //
 
@@ -57,7 +46,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 	void onInit() override
 	{
 		createAxis();
-		using namespace Colors;
+		using namespace LabUtils::Colors;
 
 		// -- تحميل الصورة -- //
 
