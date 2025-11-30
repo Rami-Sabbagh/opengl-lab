@@ -53,6 +53,14 @@ FragColor = vec4(vertexColor, 1.0);
 
 namespace LabUtils
 {
+	GLuint BasicShape::shaderProgram = 0;
+
+	void BasicShape::compileShapeShader()
+	{
+		if (shaderProgram != 0) return; // Shader already compiled.
+		shaderProgram = compileAndLinkShaderProgram(BASIC_VERTEX_SHADER_SRC, BASIC_FRAMGENT_SHADER_SRC, "basic-shader");
+	}
+
 	BasicShape::BasicShape()
 	{
 		verticesCount = 0;
@@ -65,7 +73,7 @@ namespace LabUtils
 
 		this->drawMode = drawMode;
 
-		shaderProgram = compileAndLinkShaderProgram(BASIC_VERTEX_SHADER_SRC, BASIC_FRAMGENT_SHADER_SRC, "basic-shader");
+		compileShapeShader(); // Ensure the shader is compiled.
 
 		// Upload Vertex Data
 		int size = verticesCount * sizeof(BasicVertex);

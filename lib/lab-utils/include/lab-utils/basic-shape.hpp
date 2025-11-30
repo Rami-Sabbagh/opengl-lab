@@ -30,13 +30,15 @@ namespace LabUtils
 	protected:
 		int verticesCount = 0;
 
-		GLuint shaderProgram = 0;
 		GLuint cameraLocation = 0, transformLocation = 0;
 		GLuint VAO = 0, VBO = 0;
 
 		GLenum drawMode = GL_TRIANGLES;
 
 	public:
+		static GLuint shaderProgram;
+		static void compileShapeShader();
+
 		BasicShape();
 		BasicShape(const std::vector<BasicVertex>& vertices, GLenum drawMode = GL_TRIANGLES);
 		~BasicShape();
