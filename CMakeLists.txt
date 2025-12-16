@@ -63,9 +63,10 @@ add_subdirectory("lib/lab-utils")
 
 include(cmake/AddLabExecutable.cmake)
 
-add_subdirectory("lectures/01")
-add_subdirectory("lectures/02")
-add_subdirectory("lectures/03")
-add_subdirectory("lectures/06")
+#add_subdirectory("lectures/01")
+#add_subdirectory("lectures/02")
+#add_subdirectory("lectures/03")
+#add_subdirectory("lectures/06")
+add_subdirectory("lectures/07")
 
-add_subdirectory("homeworks/01")
+#add_subdirectory("homeworks/01")
