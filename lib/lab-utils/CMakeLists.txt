@@ -14,6 +14,7 @@ target_sources(lab-utils
 			# Shapes
 			include/lab-utils/basic-shape.hpp
 			include/lab-utils/textured-shape.hpp
+			include/lab-utils/alpha-shape.hpp
 
 	PRIVATE
 		# Application
@@ -24,7 +25,8 @@ target_sources(lab-utils
 		# Shapes
 		src/basic-shape.cpp
 		src/textured-shape.cpp
- )
+		src/alpha-shape.cpp
+)
 
 target_compile_features(lab-utils PRIVATE cxx_std_17)
 target_link_libraries(lab-utils PUBLIC GLAD SFML::Window glm::glm)
