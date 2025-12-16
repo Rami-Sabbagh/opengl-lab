@@ -109,30 +109,37 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glm::vec3 G{ 0.5f, 0.5f, -0.5f };
 		glm::vec3 H{ -0.5f, 0.5f, -0.5f };
 
+		glm::vec3 UP{ 0.0f, 0.0f, 1.0f };
+		glm::vec3 DOWN{ 0.0f, 0.0f, -1.0f };
+		glm::vec3 RIGHT{ 0.0f, 1.0f, 0.0f };
+		glm::vec3 LEFT{ 0.0f, -1.0f, 0.0f };
+		glm::vec3 FRONT{ 1.0f, 0.0f, 0.0f };
+		glm::vec3 BACK{ -1.0f, 0.0f, 0.0f };
+
 		cube = LabUtils::ShadedShape({
 			// الوجه العلوي
-			{ A, blue }, { B, blue }, { C, blue },
-			{ C, blue }, { D, blue }, { A, blue },
+			{ A, blue, UP }, { B, blue, UP }, { C, blue, UP },
+			{ C, blue, UP }, { D, blue, UP }, { A, blue, UP },
 
 			// الوجه الأمامي
-			{ B, red }, { F, red }, { C, red },
-			{ C, red }, { F, red }, { G, red },
+			{ B, red, FRONT }, { F, red, FRONT }, { C, red, FRONT },
+			{ C, red, FRONT }, { F, red, FRONT }, { G, red, FRONT },
 
 			// الوجه اليميني
-			{ C, green }, { G, green }, { D, green },
-			{ D, green }, { G, green }, { H, green },
+			{ C, green, RIGHT }, { G, green, RIGHT }, { D, green, RIGHT },
+			{ D, green, RIGHT }, { G, green, RIGHT }, { H, green, RIGHT },
 
 			// الوجه الخلفي
-			{ D, magenta }, { H, magenta }, { A, magenta },
-			{ A, magenta }, { H, magenta }, { E, magenta },
+			{ D, magenta, BACK }, { H, magenta, BACK }, { A, magenta, BACK },
+			{ A, magenta, BACK }, { H, magenta, BACK }, { E, magenta, BACK },
 
 			// الوجه اليساري
-			{ A, yellow }, { E, yellow }, { B, yellow },
-			{ B, yellow }, { E, yellow }, { F, yellow },
+			{ A, yellow, LEFT }, { E, yellow, LEFT }, { B, yellow, LEFT },
+			{ B, yellow, LEFT }, { E, yellow, LEFT }, { F, yellow, LEFT },
 
 			// الوجه السفلي
-			{ E, cyan }, { H, cyan }, { F, cyan },
-			{ F, cyan }, { H, cyan }, { G, cyan },
+			{ E, cyan, DOWN }, { H, cyan, DOWN }, { F, cyan, DOWN },
+			{ F, cyan, DOWN }, { H, cyan, DOWN }, { G, cyan, DOWN },
 			});
 	}
 };

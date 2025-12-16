@@ -25,8 +25,10 @@ static const char* SHADED_VERTEX_SHADER_SRC = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
+layout(location = 2) in vec3 aNormal;
 
 out vec3 vertexColor;
+out vec3 normal;
 
 uniform mat4 camera;
 uniform mat4 transform;
@@ -34,6 +36,7 @@ uniform mat4 transform;
 void main() {
 gl_Position = camera * transform * vec4(aPos, 1.0);
 vertexColor = aColor;
+normal = aNormal;
 }
 )";
 
@@ -41,6 +44,7 @@ static const char* SHADED_FRAMGENT_SHADER_SRC = R"(
 #version 330 core
 
 in vec3 vertexColor;
+in vec3 normal;
 
 out vec4 FragColor;
 
@@ -91,6 +95,9 @@ namespace LabUtils
 		// - Color
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, color)));
 		glEnableVertexAttribArray(1);
+		// - Normal
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, color)));
+		glEnableVertexAttribArray(2);
 
 		// Get Uniforms Locations
 		cameraLocation = glGetUniformLocation(shaderProgram, "camera");
