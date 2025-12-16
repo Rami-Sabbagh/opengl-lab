@@ -15,6 +15,7 @@ target_sources(lab-utils
 			include/lab-utils/basic-shape.hpp
 			include/lab-utils/textured-shape.hpp
 			include/lab-utils/alpha-shape.hpp
+			include/lab-utils/shaded-shape.hpp
 
 	PRIVATE
 		# Application
@@ -26,6 +27,7 @@ target_sources(lab-utils
 		src/basic-shape.cpp
 		src/textured-shape.cpp
 		src/alpha-shape.cpp
+		src/shaded-shape.cpp
 )
 
 target_compile_features(lab-utils PRIVATE cxx_std_17)

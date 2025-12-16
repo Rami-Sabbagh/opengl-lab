@@ -1,1 +1,2 @@
 ADD_LAB_EXECUTABLE(L07-P01-blending SOURCES 01-blending.cpp)
+ADD_LAB_EXECUTABLE(L07-P02-lighting SOURCES 02-lighting.cpp)
