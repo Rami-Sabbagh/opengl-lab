@@ -58,7 +58,7 @@ namespace LabUtils
 	void AlphaShape::compileShapeShader()
 	{
 		if (shaderProgram != 0) return; // Shader already compiled.
-		shaderProgram = compileAndLinkShaderProgram(ALPHA_VERTEX_SHADER_SRC, ALPHA_FRAMGENT_SHADER_SRC, "basic-shader");
+		shaderProgram = compileAndLinkShaderProgram(ALPHA_VERTEX_SHADER_SRC, ALPHA_FRAMGENT_SHADER_SRC, "alpha-shader");
 	}
 
 	AlphaShape::AlphaShape()
