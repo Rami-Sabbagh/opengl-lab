@@ -22,7 +22,7 @@ namespace LabUtils
 	struct AlphaVertex
 	{
 		glm::vec3 position;
-		glm::vec3 color;
+		glm::vec4 color;
 	};
 
 	class AlphaShape

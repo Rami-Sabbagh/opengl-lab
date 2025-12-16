@@ -24,9 +24,9 @@
 static const char* ALPHA_VERTEX_SHADER_SRC = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aColor;
+layout(location = 1) in vec4 aColor;
 
-out vec3 vertexColor;
+out vec4 vertexColor;
 
 uniform mat4 camera;
 uniform mat4 transform;
@@ -40,12 +40,12 @@ vertexColor = aColor;
 static const char* ALPHA_FRAMGENT_SHADER_SRC = R"(
 #version 330 core
 
-in vec3 vertexColor;
+in vec4 vertexColor;
 
 out vec4 FragColor;
 
 void main() {
-FragColor = vec4(vertexColor, 1.0);
+FragColor = vertexColor;
 }
 )";
 
@@ -89,7 +89,7 @@ namespace LabUtils
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(AlphaVertex), (void*)(offsetof(AlphaVertex, position)));
 		glEnableVertexAttribArray(0);
 		// - Color
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(AlphaVertex), (void*)(offsetof(AlphaVertex, color)));
+		glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(AlphaVertex), (void*)(offsetof(AlphaVertex, color)));
 		glEnableVertexAttribArray(1);
 
 		// Get Uniforms Locations
