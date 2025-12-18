@@ -96,7 +96,7 @@ namespace LabUtils
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, color)));
 		glEnableVertexAttribArray(1);
 		// - Normal
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, color)));
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, normal)));
 		glEnableVertexAttribArray(2);
 
 		// Get Uniforms Locations
