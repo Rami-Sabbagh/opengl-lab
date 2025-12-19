@@ -26,8 +26,15 @@ namespace LabUtils
 	struct ShadedVertex
 	{
 		glm::vec3 position;
-		glm::vec3 color;
 		glm::vec3 normal;
+	};
+
+	struct ShadedMaterial
+	{
+		glm::vec3 ambient;
+		glm::vec3 diffuse;
+		glm::vec3 specular;
+		float shininess;
 	};
 
 	class ShadedShape
@@ -45,7 +52,7 @@ namespace LabUtils
 		static void compileShapeShader();
 
 		ShadedShape();
-		ShadedShape(const std::vector<ShadedVertex>& vertices, GLenum drawMode = GL_TRIANGLES);
+		ShadedShape(const std::vector<ShadedVertex>& vertices, GLenum drawMode, const ShadedMaterial& material);
 		~ShadedShape();
 
 		ShadedShape& operator=(ShadedShape&& other) noexcept;
@@ -60,5 +67,6 @@ namespace LabUtils
 		void setUniform(const std::string& name, const glm::vec3& value);
 		void setUniform(const std::string& name, const glm::mat3& value);
 		void setUniform(const std::string& name, const glm::mat4& value);
+		void setUniform(const std::string& name, const ShadedMaterial& value);
 	};
 }

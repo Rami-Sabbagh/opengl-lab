@@ -45,16 +45,19 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 	void onInit() override
 	{
 		createAxis();
-		createCube();
-
-		// -- Transformations -- //
-
-		transform = glm::scale(transform, { 0.5f, 0.5f, 0.5f });
+		createCube({
+			glm::vec3{ 0.05f }, // Ambient
+			glm::vec3{ 0.8f }, // Diffuse
+			glm::vec3{ 1.0f }, // Specular
+			256.0f // Shininess
+			});
 	}
 
 	void onUpdate(float t, float dt) override
 	{
-
+		transform = glm::identity<glm::mat4>();
+		transform = glm::scale(transform, { 0.5f, 0.5f, 0.5f });
+		transform = glm::rotate(transform, glm::radians(t * -5.0f), { 0.0f, 0.0f, 1.0f });
 	}
 
 	void onDraw(float t, float dt) override
@@ -63,8 +66,8 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		cube.setUniform("lightPosition", {
-			1.0f, glm::cos(t * 0.5f) * 0.35f, glm::sin(t) * 0.125f
-		});
+			1.0f, 0.0f, glm::sin(glm::radians(t * 45.0f)) * 0.3f
+			});
 		cube.render(transform, camera, cameraPosition);
 
 		glLineWidth(3.0f);
@@ -97,7 +100,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 			}, GL_LINES);
 	}
 
-	void createCube()
+	void createCube(const LabUtils::ShadedMaterial& material)
 	{
 		// النموذج مطابق للصورة في السلايدات.
 		using namespace LabUtils::Colors;
@@ -121,29 +124,31 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 		cube = LabUtils::ShadedShape({
 			// الوجه العلوي
-			{ A, blue, UP }, { B, blue, UP }, { C, blue, UP },
-			{ C, blue, UP }, { D, blue, UP }, { A, blue, UP },
+			{ A, UP }, { B, UP }, { C, UP },
+			{ C, UP }, { D, UP }, { A, UP },
 
 			// الوجه الأمامي
-			{ B, red, FRONT }, { F, red, FRONT }, { C, red, FRONT },
-			{ C, red, FRONT }, { F, red, FRONT }, { G, red, FRONT },
+			{ B, FRONT }, { F, FRONT }, { C, FRONT },
+			{ C, FRONT }, { F, FRONT }, { G, FRONT },
 
 			// الوجه اليميني
-			{ C, green, RIGHT }, { G, green, RIGHT }, { D, green, RIGHT },
-			{ D, green, RIGHT }, { G, green, RIGHT }, { H, green, RIGHT },
+			{ C, RIGHT }, { G, RIGHT }, { D, RIGHT },
+			{ D, RIGHT }, { G, RIGHT }, { H, RIGHT },
 
 			// الوجه الخلفي
-			{ D, magenta, BACK }, { H, magenta, BACK }, { A, magenta, BACK },
-			{ A, magenta, BACK }, { H, magenta, BACK }, { E, magenta, BACK },
+			{ D, BACK }, { H, BACK }, { A, BACK },
+			{ A, BACK }, { H, BACK }, { E, BACK },
 
 			// الوجه اليساري
-			{ A, yellow, LEFT }, { E, yellow, LEFT }, { B, yellow, LEFT },
-			{ B, yellow, LEFT }, { E, yellow, LEFT }, { F, yellow, LEFT },
+			{ A, LEFT }, { E, LEFT }, { B, LEFT },
+			{ B, LEFT }, { E, LEFT }, { F, LEFT },
 
 			// الوجه السفلي
-			{ E, cyan, DOWN }, { H, cyan, DOWN }, { F, cyan, DOWN },
-			{ F, cyan, DOWN }, { H, cyan, DOWN }, { G, cyan, DOWN },
-			});
+			{ E, DOWN }, { H, DOWN }, { F, DOWN },
+			{ F, DOWN }, { H, DOWN }, { G, DOWN },
+			},
+			GL_TRIANGLES,
+			material);
 	}
 };
 

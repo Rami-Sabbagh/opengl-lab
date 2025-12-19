@@ -24,13 +24,10 @@
 static const char* SHADED_VERTEX_SHADER_SRC = R"(
 #version 330 core
 layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aColor;
-layout(location = 2) in vec3 aNormal;
+layout(location = 1) in vec3 aNormal;
 
 out vec3 worldPosition;
 out vec3 normal;
-
-out vec3 objectColor;
 
 uniform mat4 camera;
 uniform mat4 transform;
@@ -41,8 +38,6 @@ void main() {
 	
 	worldPosition = vec3(transform * vec4(aPos, 1.0));
 	normal = nTransform * aNormal;
-
-	objectColor = aColor;
 }
 )";
 
@@ -50,20 +45,24 @@ static const char* SHADED_FRAMGENT_SHADER_SRC = R"(
 #version 330 core
 out vec4 FragColor;
 
+struct Material {
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+	float shininess;
+};
+
 in vec3 worldPosition;
 in vec3 normal;
-
-in vec3 objectColor;
 
 uniform vec3 cameraPosition;
 uniform vec3 lightPosition;
 
+uniform Material material;
+
 void main() {
 	// Light wannabe Uniforms
 	vec3 lightColor = vec3(1.0);
-	float ambientStrength = 0.05;
-	float diffuseStrength = 0.7;
-	float specularStrength = 1.0;
 
 	// Intermediate values
 	vec3 norm = normalize(normal);
@@ -72,19 +71,19 @@ void main() {
 	vec3 reflectDirection = reflect(-lightDirection, norm);
 
 	// Ambient Lighting
-	vec3 ambient = ambientStrength * lightColor;
+	vec3 ambient = lightColor * material.ambient;
 
 	// Diffuse Lighting
 	float diff = max(dot(norm, lightDirection), 0.0);
-	vec3 diffuse = diffuseStrength * diff * lightColor;
+	vec3 diffuse = lightColor * diff * material.diffuse;
 
 	// Specular Lighting
-	float spec = pow(max(dot(cameraDirection, reflectDirection), 0.0), 256);
-	vec3 specular = specularStrength * spec * lightColor;
+	float spec = pow(max(dot(cameraDirection, reflectDirection), 0.0), material.shininess);
+	vec3 specular = lightColor * spec * material.specular;
 
 	// Mixing colors
 	//vec3 result = specular;
-	vec3 result = (ambient + diffuse + specular) * objectColor;
+	vec3 result = ambient + diffuse + specular;
 	FragColor = vec4(result, 1.0);
 }
 )";
@@ -106,7 +105,7 @@ namespace LabUtils
 		verticesCount = 0;
 	}
 
-	ShadedShape::ShadedShape(const std::vector<ShadedVertex>& vertices, GLenum drawMode)
+	ShadedShape::ShadedShape(const std::vector<ShadedVertex>& vertices, GLenum drawMode, const ShadedMaterial& material)
 	{
 		verticesCount = vertices.size();
 		if (verticesCount == 0) return; // Don't render empty shapes.
@@ -128,12 +127,12 @@ namespace LabUtils
 		// - Position
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, position)));
 		glEnableVertexAttribArray(0);
-		// - Color
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, color)));
-		glEnableVertexAttribArray(1);
 		// - Normal
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, normal)));
-		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, normal)));
+		glEnableVertexAttribArray(1);
+
+		// Send constant uniforms
+		setUniform("material", material);
 	}
 
 	ShadedShape::~ShadedShape()
@@ -227,6 +226,14 @@ namespace LabUtils
 	{
 		glUseProgram(shaderProgram);
 		glUniformMatrix4fv(getUniformLocation(name), 1, false, glm::value_ptr(value));
+	}
+
+	void ShadedShape::setUniform(const std::string& name, const ShadedMaterial& value)
+	{
+		setUniform(name + ".ambient", value.ambient);
+		setUniform(name + ".diffuse", value.diffuse);
+		setUniform(name + ".specular", value.specular);
+		setUniform(name + ".shininess", value.shininess);
 	}
 }
 
