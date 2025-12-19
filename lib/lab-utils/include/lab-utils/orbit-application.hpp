@@ -2,6 +2,7 @@
 
 #include <optional>
 
+#include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
 
 #include <SFML/System/Vector2.hpp>
@@ -13,6 +14,9 @@ namespace LabUtils
 {
 	class LabOrbitApplication : public LabApplication
 	{
+	public:
+		glm::vec3 cameraPosition;
+
 	protected:
 		glm::mat4 camera = glm::mat4(1.0f);
 

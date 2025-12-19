@@ -26,10 +26,10 @@ namespace LabUtils
 		position_transform = glm::rotate(position_transform, _long, { 0.0f, 0.0f, 1.0f });
 		position_transform = glm::rotate(position_transform, _lat, { 0.0f, 1.0f, 0.0f });
 
-		position = position_transform * glm::vec4{ position, 1.0f };
+		cameraPosition = position_transform * glm::vec4{ position, 1.0f };
 
 		glm::mat4 lookAtTransform = glm::lookAt(
-			position,
+			cameraPosition,
 			glm::vec3(0.0f, 0.0f, 0.0f),  // target
 			glm::vec3(0.0f, 0.0f, 1.0f)   // up
 		);

@@ -27,29 +27,65 @@ layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
 layout(location = 2) in vec3 aNormal;
 
-out vec3 vertexColor;
+out vec3 worldPosition;
 out vec3 normal;
+
+out vec3 objectColor;
 
 uniform mat4 camera;
 uniform mat4 transform;
+uniform mat3 nTransform;
 
 void main() {
-gl_Position = camera * transform * vec4(aPos, 1.0);
-vertexColor = aColor;
-normal = aNormal;
+	gl_Position = camera * transform * vec4(aPos, 1.0);
+	
+	worldPosition = vec3(transform * vec4(aPos, 1.0));
+	normal = nTransform * aNormal;
+
+	objectColor = aColor;
 }
 )";
 
 static const char* SHADED_FRAMGENT_SHADER_SRC = R"(
 #version 330 core
-
-in vec3 vertexColor;
-in vec3 normal;
-
 out vec4 FragColor;
 
+in vec3 worldPosition;
+in vec3 normal;
+
+in vec3 objectColor;
+
+uniform vec3 cameraPosition;
+uniform vec3 lightPosition;
+
 void main() {
-FragColor = vec4(vertexColor, 1.0);
+	// Light wannabe Uniforms
+	vec3 lightColor = vec3(1.0);
+	float ambientStrength = 0.05;
+	float diffuseStrength = 0.7;
+	float specularStrength = 1.0;
+
+	// Intermediate values
+	vec3 norm = normalize(normal);
+	vec3 lightDirection = normalize(lightPosition - worldPosition);
+	vec3 cameraDirection = normalize(cameraPosition - worldPosition);
+	vec3 reflectDirection = reflect(-lightDirection, norm);
+
+	// Ambient Lighting
+	vec3 ambient = ambientStrength * lightColor;
+
+	// Diffuse Lighting
+	float diff = max(dot(norm, lightDirection), 0.0);
+	vec3 diffuse = diffuseStrength * diff * lightColor;
+
+	// Specular Lighting
+	float spec = pow(max(dot(cameraDirection, reflectDirection), 0.0), 256);
+	vec3 specular = specularStrength * spec * lightColor;
+
+	// Mixing colors
+	//vec3 result = specular;
+	vec3 result = (ambient + diffuse + specular) * objectColor;
+	FragColor = vec4(result, 1.0);
 }
 )";
 
@@ -98,10 +134,6 @@ namespace LabUtils
 		// - Normal
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ShadedVertex), (void*)(offsetof(ShadedVertex, normal)));
 		glEnableVertexAttribArray(2);
-
-		// Get Uniforms Locations
-		cameraLocation = glGetUniformLocation(shaderProgram, "camera");
-		transformLocation = glGetUniformLocation(shaderProgram, "transform");
 	}
 
 	ShadedShape::~ShadedShape()
@@ -125,8 +157,7 @@ namespace LabUtils
 			// steal resources
 			verticesCount = other.verticesCount;
 			shaderProgram = other.shaderProgram;
-			cameraLocation = other.cameraLocation;
-			transformLocation = other.transformLocation;
+			uniforms = std::move(other.uniforms);
 			VAO = other.VAO;
 			VBO = other.VBO;
 
@@ -139,15 +170,58 @@ namespace LabUtils
 		return *this;
 	}
 
-	void ShadedShape::render(const glm::mat4& transform, const glm::mat4& camera) const
+	void ShadedShape::render(const glm::mat4& transform, const glm::mat4& camera)
 	{
 		if (verticesCount == 0) return;
 
+		glm::mat3 nTransform = glm::mat3(glm::transpose(glm::inverse(transform)));
+
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glUniformMatrix4fv(cameraLocation, 1, false, glm::value_ptr(camera));
-		glUniformMatrix4fv(transformLocation, 1, false, glm::value_ptr(transform));
+		setUniform("camera", camera);
+		setUniform("transform", transform);
+		setUniform("nTransform", nTransform);
 		glDrawArrays(drawMode, 0, verticesCount);
+	}
+
+	GLuint ShadedShape::getUniformLocation(const std::string& name)
+	{
+		auto iter = uniforms.find(name);
+		if (iter != uniforms.end()) return iter->second;
+
+		GLuint location = glGetUniformLocation(shaderProgram, name.c_str());
+		if (location == -1)
+		{
+			std::cerr << "Uniform '" << name << "' not found." << std::endl;
+			std::exit(1);
+		}
+
+		uniforms[name] = location;
+		return location;
+	}
+
+	void ShadedShape::setUniform(const std::string& name, float value)
+	{
+		glUseProgram(shaderProgram);
+		glUniform1f(getUniformLocation(name), value);
+	}
+
+	void ShadedShape::setUniform(const std::string& name, const glm::vec3& value)
+	{
+		glUseProgram(shaderProgram);
+		glUniform3fv(getUniformLocation(name), 1, glm::value_ptr(value));
+	}
+
+	void ShadedShape::setUniform(const std::string& name, const glm::mat3& value)
+	{
+		glUseProgram(shaderProgram);
+		glUniformMatrix3fv(getUniformLocation(name), 1, false, glm::value_ptr(value));
+	}
+
+	void ShadedShape::setUniform(const std::string& name, const glm::mat4& value)
+	{
+		glUseProgram(shaderProgram);
+		glUniformMatrix4fv(getUniformLocation(name), 1, false, glm::value_ptr(value));
 	}
 }
 

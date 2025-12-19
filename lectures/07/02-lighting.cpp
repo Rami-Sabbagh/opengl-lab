@@ -59,9 +59,13 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 	void onDraw(float t, float dt) override
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		cube.setUniform("cameraPosition", cameraPosition);
+		cube.setUniform("lightPosition", {
+			1.0f, glm::cos(t * 0.5f) * 0.35f, glm::sin(t) * 0.125f
+		});
 		cube.render(transform, camera);
 
 		glLineWidth(3.0f);

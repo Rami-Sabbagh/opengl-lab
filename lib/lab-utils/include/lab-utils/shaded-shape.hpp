@@ -1,5 +1,9 @@
 ﻿#pragma once
 
+// ---- تضمين المكاتب الأساسية ---- //
+
+#include <unordered_map>
+
 // ---- تضمين المكاتب الخارجية ---- //
 
 // من أجل استخدام اصدار حديث من الأوبن جي ال
@@ -30,9 +34,9 @@ namespace LabUtils
 	{
 	protected:
 		int verticesCount = 0;
-
-		GLuint cameraLocation = 0, transformLocation = 0;
 		GLuint VAO = 0, VBO = 0;
+
+		std::unordered_map<std::string, GLuint> uniforms{};
 
 		GLenum drawMode = GL_TRIANGLES;
 
@@ -46,6 +50,12 @@ namespace LabUtils
 
 		ShadedShape& operator=(ShadedShape&& other) noexcept;
 
-		void render(const glm::mat4& transform = { 1.0f }, const glm::mat4& camera = { 1.0f }) const;
+		void render(const glm::mat4& transform = { 1.0f }, const glm::mat4& camera = { 1.0f });
+
+		GLuint getUniformLocation(const std::string& name);
+		void setUniform(const std::string& name, float value);
+		void setUniform(const std::string& name, const glm::vec3& value);
+		void setUniform(const std::string& name, const glm::mat3& value);
+		void setUniform(const std::string& name, const glm::mat4& value);
 	};
 }
