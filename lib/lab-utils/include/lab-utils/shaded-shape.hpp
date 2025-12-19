@@ -50,7 +50,10 @@ namespace LabUtils
 
 		ShadedShape& operator=(ShadedShape&& other) noexcept;
 
-		void render(const glm::mat4& transform = { 1.0f }, const glm::mat4& camera = { 1.0f });
+		void render(
+			const glm::mat4& transform,
+			const glm::mat4& camera,
+			const glm::vec3& cameraPosition);
 
 		GLuint getUniformLocation(const std::string& name);
 		void setUniform(const std::string& name, float value);

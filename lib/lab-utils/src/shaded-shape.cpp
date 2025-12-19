@@ -170,17 +170,22 @@ namespace LabUtils
 		return *this;
 	}
 
-	void ShadedShape::render(const glm::mat4& transform, const glm::mat4& camera)
-	{
+	void ShadedShape::render(
+		const glm::mat4& transform,
+		const glm::mat4& camera,
+		const glm::vec3& cameraPosition
+	) {
 		if (verticesCount == 0) return;
 
 		glm::mat3 nTransform = glm::mat3(glm::transpose(glm::inverse(transform)));
 
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		setUniform("camera", camera);
 		setUniform("transform", transform);
 		setUniform("nTransform", nTransform);
+
+		setUniform("camera", camera);
+		setUniform("cameraPosition", cameraPosition);
 		glDrawArrays(drawMode, 0, verticesCount);
 	}
 
