@@ -18,7 +18,9 @@ namespace LabUtils
 		glm::vec3 cameraPosition;
 
 	protected:
-		glm::mat4 camera = glm::mat4(1.0f);
+		glm::mat4 camera = glm::mat4{ 1.0f };
+		glm::mat4 view = glm::mat4{ 1.0f };
+		glm::mat4 projection = glm::mat4{ 1.0f };
 
 		// Polar coordinates of the orbit-mode camera.
 		// Longitude, Latidude, Distance.

@@ -28,7 +28,7 @@ namespace LabUtils
 
 		cameraPosition = position_transform * glm::vec4{ position, 1.0f };
 
-		glm::mat4 lookAtTransform = glm::lookAt(
+		view = glm::lookAt(
 			cameraPosition,
 			glm::vec3(0.0f, 0.0f, 0.0f),  // target
 			glm::vec3(0.0f, 0.0f, 1.0f)   // up
@@ -37,14 +37,14 @@ namespace LabUtils
 		auto windowSize = window.getSize();
 		float width = windowSize.x, height = windowSize.y;
 
-		glm::mat4 projectionTransform = glm::perspective(
+		projection = glm::perspective(
 			glm::radians(45.0f),	// Field of view in radians
 			width / height,		    // Aspect ratio (width / height)
 			0.1f,					// Near clipping plane
 			100.0f					// Far clipping plane
 		);
 
-		camera = projectionTransform * lookAtTransform;
+		camera = projection * view;
 	}
 
 	void LabOrbitApplication::updateOrbitControls()
