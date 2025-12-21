@@ -78,6 +78,7 @@ add_subdirectory("dependencies/glm-1.0.2" EXCLUDE_FROM_ALL)
 # --== Internal Libraries ==-- #
 
 add_subdirectory("lib/lab-utils")
+add_subdirectory("lib/learnopengl")
 
 # --== Executables ==-- #
 
