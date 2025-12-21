@@ -31,7 +31,6 @@ endif()
 
 # --== Dependencies ==-- #
 
-#list(PREPEND CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/dependencies)
 set(SFML_STATIC_LIBRARIES ON)
 set(GLM_ENABLE_CXX_17 ON)
 
@@ -84,10 +83,10 @@ add_subdirectory("lib/learnopengl")
 
 include(cmake/AddLabExecutable.cmake)
 
-#add_subdirectory("lectures/01")
-#add_subdirectory("lectures/02")
-#add_subdirectory("lectures/03")
-#add_subdirectory("lectures/06")
+add_subdirectory("lectures/01")
+add_subdirectory("lectures/02")
+add_subdirectory("lectures/03")
+add_subdirectory("lectures/06")
 add_subdirectory("lectures/07")
 
-#add_subdirectory("homeworks/01")
+add_subdirectory("homeworks/01")
