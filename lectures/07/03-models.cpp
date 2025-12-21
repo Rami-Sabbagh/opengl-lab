@@ -52,10 +52,18 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 			"../../../../../assets/shaders/model.frag"
 		);
 
+		std::cout << "Loading model... ";
+
 		model = Model(
-			"../../../../../assets/violin.glb"
+			"../../../../../assets/backpack/backpack.obj"
 		);
 
+		std::cout << "Loaded." << std::endl;
+
+		transform = glm::translate(transform, { 0.3f, 0.0f, 0.0f });
+		transform = glm::rotate(transform, glm::radians(90.0f), { 0.0f, 0.0f, 1.0f });
+		transform = glm::rotate(transform, glm::radians(90.0f), { 1.0f, 0.0f, 0.0f });
+		transform = glm::scale(transform, glm::vec3{ 0.25f });
 	}
 
 	void onUpdate(float t, float dt) override
@@ -69,15 +77,15 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.use();
-		shader.setMat4("projeciton", camera);
-		shader.setMat4("view", glm::identity<glm::mat4>());
+		shader.setMat4("projection", projection);
+		shader.setMat4("view", view);
 		shader.setMat4("model", transform);
 		model.Draw(shader);
 
 		glLineWidth(3.0f);
-		glDepthFunc(GL_ALWAYS);
+		//glDepthFunc(GL_ALWAYS);
 		axis.render(glm::identity<glm::mat4>(), camera);
-		glDepthFunc(GL_LESS);
+		//glDepthFunc(GL_LESS);
 	}
 
 	void onExit()

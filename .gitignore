@@ -11,3 +11,6 @@ CMakeUserPresets.txt
 # IDE
 /.vs
 /.vscode
+
+# Large Assets
+assets/backpack
