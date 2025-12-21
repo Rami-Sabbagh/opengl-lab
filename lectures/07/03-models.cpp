@@ -21,7 +21,7 @@
 #include "lab-utils/orbit-application.hpp"
 
 #include "learnopengl/shader.h"
-//#include "learnopengl/model.h"
+#include "learnopengl/model.h"
 
 // ---- قيم مساعدة ---- //
 
@@ -49,6 +49,7 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 			"../../../../../assets/shaders/model.vert",
 			"../../../../../assets/shaders/model.frag"
 		);
+
 	}
 
 	void onUpdate(float t, float dt) override
