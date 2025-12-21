@@ -20,6 +20,9 @@
 #include "lab-utils/basic-shape.hpp"
 #include "lab-utils/orbit-application.hpp"
 
+#include "learnopengl/shader.h"
+//#include "learnopengl/model.h"
+
 // ---- قيم مساعدة ---- //
 
 // الألوان المساعدة أصبحت ضمن ترويسات المشروع
@@ -34,15 +37,18 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 	LabUtils::BasicShape axis;
 
-	glm::mat4 transform{ 1.0f };
-
-	GLuint texture = 0;
+	Shader modelShader;
 
 	// ---- مراحل حياة البرنامج ---- //
 
 	void onInit() override
 	{
 		createAxis();
+
+		modelShader = Shader(
+			"../../../../../assets/shaders/model.vert",
+			"../../../../../assets/shaders/model.frag"
+		);
 	}
 
 	void onUpdate(float t, float dt) override
