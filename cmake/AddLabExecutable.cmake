@@ -6,7 +6,7 @@ function(ADD_LAB_EXECUTABLE APP_NAME)
     add_executable(${APP_NAME} ${ARG_SOURCES})
     target_compile_features(${APP_NAME} PRIVATE cxx_std_17)
 
-    target_link_libraries(${APP_NAME} PRIVATE GLAD SFML::System SFML::Window SFML::Graphics glm::glm lab-utils)
+    target_link_libraries(${APP_NAME} PRIVATE GLAD SFML::System SFML::Window SFML::Graphics glm::glm assimp::assimp lab-utils)
 
     # Optionally include directories if HAS_INCLUDES is set
     if(ARG_HAS_INCLUDES)

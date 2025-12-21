@@ -39,6 +39,7 @@ if(USE_PREBUILT_LIBS)
     message("Using prebuilt libraries.")
 
     find_package(SFML 3 COMPONENTS System Window Graphics REQUIRED)
+    add_subdirectory("dependencies/prebuilt/msvc-x64/assimp" EXCLUDE_FROM_ALL)
 else()
     message("Using fetched libraries.")
 
@@ -49,7 +50,26 @@ else()
         GIT_SHALLOW ON
         EXCLUDE_FROM_ALL
         SYSTEM)
-    FetchContent_MakeAvailable(SFML)
+    FetchContent_Declare(
+          assimp
+          GIT_REPOSITORY https://github.com/assimp/assimp.git
+          GIT_TAG v6.0.2
+    )
+
+    set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+    set(ASSIMP_NO_EXPORT ON CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+
+    set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_STL_IMPORTER ON CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_3MF_IMPORTER ON CACHE BOOL "" FORCE)
+    set(ASSIMP_BUILD_GLTF_IMPORTER ON CACHE BOOL "" FORCE)
+
+    set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "" FORCE)
+
+    FetchContent_MakeAvailable(SFML assimp)
 endif()
 
 add_subdirectory("dependencies/glad" EXCLUDE_FROM_ALL)
