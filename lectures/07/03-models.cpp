@@ -37,7 +37,9 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 
 	LabUtils::BasicShape axis;
 
-	Shader modelShader;
+	Shader shader;
+	Model model;
+	glm::mat4 transform{ 1.0f };
 
 	// ---- مراحل حياة البرنامج ---- //
 
@@ -45,9 +47,13 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 	{
 		createAxis();
 
-		modelShader = Shader(
+		shader = Shader(
 			"../../../../../assets/shaders/model.vert",
 			"../../../../../assets/shaders/model.frag"
+		);
+
+		model = Model(
+			"../../../../../assets/violin.glb"
 		);
 
 	}
@@ -62,7 +68,11 @@ class PracticeApplication : public LabUtils::LabOrbitApplication
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		
+		shader.use();
+		shader.setMat4("projeciton", camera);
+		shader.setMat4("view", glm::identity<glm::mat4>());
+		shader.setMat4("model", transform);
+		model.Draw(shader);
 
 		glLineWidth(3.0f);
 		glDepthFunc(GL_ALWAYS);
